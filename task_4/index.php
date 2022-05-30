@@ -259,7 +259,4 @@ else {
 }
 ?>
 
-  // Делаем перенаправление.
-  header('Location: index.php?save=1');
-}
-?>
+
