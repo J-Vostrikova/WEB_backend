@@ -36,66 +36,66 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('name_error', '', 100000);
     // Выводим сообщение.
-    $messages['name'] = 'Заполните имя';
+    $messages['name'] = '<span class="error-text">Укажите имя</span>';
   }
   else if ($errors['name'] == '2') {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('name_error', '', 100000);
     // Выводим сообщение.
-    $messages['name'] = 'Используйте латинский алфавит или "-"';
+    $messages['name'] = '<span class="error-text">Используйте только латинский алфавит или "-"</span>';
   }
   if ($errors['email'] == '1') {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('email_error', '', 100000);
     // Выводим сообщение.
-    $messages['email'] = 'Заполните email';
+    $messages['email'] = '<span class="error-text">Укажите email</span>';
   }
   else if ($errors['email'] == '2') {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('email_error', '', 100000);
     // Выводим сообщение.
-    $messages['email'] = 'Заполните email в формате test@test.com используя английский алфавит и цифры';
+    $messages['email'] = '<span class="error-text">Заполните email в формате test@test.com используя английский алфавит, цифры и @</span>';
   }
   if ($errors['limbs']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('limbs_error', '', 100000);
     // Выводим сообщение.
-    $messages['limbs'] = 'Заполните число конечностей';
+    $messages['limbs'] = '<span class="error-text">Укажите число конечностей</span>';
   }
   if ($errors['gender']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('gender_error', '', 100000);
     // Выводим сообщение.
-    $messages['gender'] = 'Заполните пол';
+    $messages['gender'] = '<span class="error-text">Укажите пол</span>';
   }
   if ($errors['bio']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('bio_error', '', 100000);
     // Выводим сообщение.
-    $messages['bio'] = 'Заполните биографию';
+    $messages['bio'] = '<span class="error-text">Укажите биографию</span>';
   }
   if ($errors['superpowers']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('superpowers_error', '', 100000);
     // Выводим сообщение.
-    $messages['superpowers'] = 'Нелегальная сверхспособность';
+    $messages['superpowers'] = '<span class="error-text">Укажите сверхспособность(сти)</span>';
   }
   if ($errors['bdate']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('bdate_error', '', 100000);
     // Выводим сообщение.
-    $messages['bdate'] = 'Выберите год рождения';
+    $messages['bdate'] = '<span class="error-text">Укажите год рождения</span>';
   }
   if ($errors['checkbox']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('checkbox_error', '', 100000);
     // Выводим сообщение.
-    $messages['checkbox'] = 'Согласитесь';
+    $messages['checkbox'] = '<span class="error-text">Подтвердите согласие</span>';
   }
   if ($errors['data_saved']) {
     // Удаляем куку, указывая время устаревания в прошлом.
     setcookie('save_error', '', 100000);
-    $messages['data_saved'] = "Ошибка отправки: " . $_COOKIE['save_error'];
+    $messages['data_saved'] = '<span class="error-text">Ошибка отправки: </span>' . $_COOKIE['save_error'];
   }
 
   // Выдаем сообщение об успешном сохранении.
@@ -253,6 +253,11 @@ else {
     header('Location: index.php');
     exit();
   }
+
+  // Делаем перенаправление.
+  header('Location: index.php?save=1');
+}
+?>
 
   // Делаем перенаправление.
   header('Location: index.php?save=1');
