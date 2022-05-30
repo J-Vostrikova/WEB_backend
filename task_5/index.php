@@ -1,4 +1,9 @@
 <?php
+/**
+ * Реализовать возможность входа с паролем и логином с использованием
+ * сессии для изменения отправленных данных в предыдущей задаче,
+ * пароль и логин генерируются автоматически при первоначальной отправке формы.
+ */
 header('Content-Type: text/html; charset=UTF-8');
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -67,6 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $values['arg'] = empty($_COOKIE['arg_value']) ? '' : strip_tags($_COOKIE['arg_value']);
   $values['about'] = empty($_COOKIE['about_value']) ? '' : strip_tags($_COOKIE['about_value']);
   $values['check'] = empty($_COOKIE['check_value']) ? '' : strip_tags($_COOKIE['check_value']);
+    // Если нет предыдущих ошибок ввода, есть кука сессии, начали сессию и
+  // ранее в сессию записан факт успешного логина.
   if (empty($errors) && !empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
     try {
@@ -90,6 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       print('Error : ' . $e->getMessage());
       exit();
     }
+        // TODO: загрузить данные пользователя из БД
+    // и заполнить переменную $values,
+    // предварительно санитизовав.
     printf('Вход с логином %s, uid %d', $_SESSION['login'], $_SESSION['uid']);
   }
   include('form.php');
@@ -178,8 +188,12 @@ else {
   $about = $_POST['about'];
   $dblogin = $_SESSION['login'];
   $arg = implode(',',$_POST['arg']);
+    // Проверяем меняются ли ранее сохраненные данные или отправляются новые.
   if (!empty($_COOKIE[session_name()]) &&
       session_start() && !empty($_SESSION['login'])) {
+    // TODO: перезаписать данные в БД новыми данными,
+    // кроме логина и пароля.
+  }
     try {
 
       $stmt = $db->prepare("UPDATE heroes2 SET fio = ?, email = ?, date = ?, gender = ?, arms = ?, about = ? WHERE login = ?");
@@ -194,11 +208,14 @@ else {
     }
   }
   else {
+    //генерация случ id
     $login = uniqid();
     $tpass = uniqid();
     $pass = md5($tpass);
     setcookie('login', $login);
     setcookie('pass', $tpass);
+    // TODO: Сохранение данных формы, логина и хеш md5() пароля в базу данных.
+    
     try {
 
       $stmt = $db->prepare("INSERT INTO heroes2 SET fio = ?, email = ?, date = ?, gender = ?, arms = ?, about = ?, login = ?, password = ?");
@@ -212,7 +229,7 @@ else {
       exit();
     }
   }
-
+  // Сохраняем куку с признаком успешного сохранения.
   setcookie('save', '1');
 
   header('Location: ./');
